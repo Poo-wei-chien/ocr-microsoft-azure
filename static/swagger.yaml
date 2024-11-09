@@ -1,0 +1,61 @@
+openapi: 3.0.0
+info:
+  title: Image Analysis API
+  description: API for analyzing images using Azure Vision API
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000
+paths:
+  /api/v1/analysis/:
+    post:
+      summary: Analyze an image
+      description: Returns the text contained within the image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - uri
+              properties:
+                uri:
+                  type: string
+                  description: The URI of the image to analyze
+            example:
+              uri: "https://example.com/image.jpg"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    description: The text extracted from the image
+              example:
+                text: "Sample extracted text from image"
+        '400':
+          description: Missing URI in JSON
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "Missing URI in JSON"
+        '500':
+          description: Error in processing
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: "Error in processing"
